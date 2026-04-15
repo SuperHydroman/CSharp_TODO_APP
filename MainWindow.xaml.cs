@@ -18,8 +18,16 @@ public partial class MainWindow : Window
         if (e.Key == Key.Enter) CreateTodo();
     }
 
+    private void AddButton_OnClick(object sender, RoutedEventArgs e)
+    {
+        CreateTodo();
+    }
+
     private void CreateTodo()
     {
+        string text = NewTodoTextBox.Text;
+        
+        Console.WriteLine(text);
         // TODO: Implement todo creation logic, preferable saving the data to a json file
     }
 }

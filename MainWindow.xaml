@@ -25,21 +25,22 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="auto" />
             </Grid.ColumnDefinitions>
-            
+
             <!-- Text input -->
             <Border Grid.Column="0" CornerRadius="25" Background="White" HorizontalAlignment="Stretch"
                     VerticalAlignment="Top" Margin="0 0 15 0">
-                <TextBox Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Top" AcceptsReturn="True"
-                         Background="Transparent" BorderThickness="0" Padding="10" TextWrapping="Wrap" MinLines="1"
-                         MaxLines="3" Name="NewTodoTextBox" KeyDown="NewTodoTextBox_OnKeyDown"/>
+                <TextBox Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalContentAlignment="Center"
+                         Background="Transparent" BorderThickness="0" Padding="10" TextWrapping="Wrap" FontSize="22" FontFamily="/Fonts/Atma/#Atma"
+                         Name="NewTodoTextBox" KeyDown="NewTodoTextBox_OnKeyDown" />
             </Border>
-        
+
             <!-- Submit button -->
-            <Button Grid.Column="1" Style="{StaticResource RoundedButton}" Width="50" Height="50">
-                <materialDesign:PackIcon Kind="Plus" Width="24" Height="24"/>
+            <Button Grid.Column="1" Style="{StaticResource RoundedButton}" Width="50" Height="50" Name="AddButton"
+                    Click="AddButton_OnClick">
+                <materialDesign:PackIcon Kind="Plus" Width="24" Height="24" />
             </Button>
         </Grid>
-        
+
         <Grid Margin="25 0 25 25" Grid.Row="1">
             <!-- Panel with TODOs -->
             <Border CornerRadius="25" Background="{StaticResource PrimaryAccentGradient}" />

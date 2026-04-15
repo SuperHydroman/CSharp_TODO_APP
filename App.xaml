@@ -3,6 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
+        
+        <!-- Theme -->
         <SolidColorBrush x:Key="Background" Color="#0a121a" />
         <SolidColorBrush x:Key="Foreground" Color="#e9eef3" />
         <SolidColorBrush x:Key="Primary" Color="#a2bfdd" />
@@ -32,6 +34,7 @@
                             <!-- Hover event -->
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="border" Property="Background" Value="#FF5A9BFF" />
+                                <Setter Property="Cursor" Value="Hand" />
                             </Trigger>
                         
                             <!-- Click event -->
