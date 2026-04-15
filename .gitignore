@@ -1,0 +1,49 @@
+# Build results
+bin/
+obj/
+
+# Rider / IntelliJ
+.idea/
+
+# Visual Studio (just in case)
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# .NET
+*.dll
+*.exe
+*.pdb
+*.cache
+
+# NuGet
+*.nupkg
+packages/
+# (keep this if you use packages.config, otherwise safe)
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
+
+# Resharper / Rider
+_ReSharper*/
+*.DotSettings.user
+
+# Publish output
+publish/
+
+# Rider build
+out/
+
+# Backup files
+*~
+*.bak
