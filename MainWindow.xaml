@@ -14,7 +14,8 @@
         WindowStyle="SingleBorderWindow"
         Topmost="True"
         Background="{StaticResource Background}"
-        Foreground="{StaticResource Foreground}">
+        Foreground="{StaticResource Foreground}"
+        FontFamily="/Fonts/Atma/#Atma">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -30,7 +31,7 @@
             <Border Grid.Column="0" CornerRadius="25" Background="White" HorizontalAlignment="Stretch"
                     VerticalAlignment="Top" Margin="0 0 15 0">
                 <TextBox Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalContentAlignment="Center"
-                         Background="Transparent" BorderThickness="0" Padding="10" TextWrapping="Wrap" FontSize="22" FontFamily="/Fonts/Atma/#Atma"
+                         Background="Transparent" BorderThickness="0" Padding="10" TextWrapping="Wrap" FontSize="24"
                          Name="NewTodoTextBox" KeyDown="NewTodoTextBox_OnKeyDown" />
             </Border>
 
@@ -43,7 +44,17 @@
 
         <Grid Margin="25 0 25 25" Grid.Row="1">
             <!-- Panel with TODOs -->
-            <Border CornerRadius="25" Background="{StaticResource PrimaryAccentGradient}" />
+            <Border CornerRadius="25" Background="{StaticResource PrimaryAccentGradient}" Padding="15">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel>
+                        <Border CornerRadius="15" Background="SteelBlue" Height="100" VerticalAlignment="Top" Margin="0 0 0 15" />
+                        <Border CornerRadius="15" Background="SteelBlue" Height="100" VerticalAlignment="Top" Margin="0 0 0 15" />
+                        <Border CornerRadius="15" Background="SteelBlue" Height="100" VerticalAlignment="Top" Margin="0 0 0 15" />
+                        <Border CornerRadius="15" Background="SteelBlue" Height="100" VerticalAlignment="Top" Margin="0 0 0 15" />
+                        <Border CornerRadius="15" Background="SteelBlue" Height="100" VerticalAlignment="Top" Margin="0 0 0 15" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
         </Grid>
     </Grid>
 </Window>
