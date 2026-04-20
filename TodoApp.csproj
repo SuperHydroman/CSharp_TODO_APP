@@ -10,6 +10,7 @@
 
     <ItemGroup>
       <PackageReference Include="MaterialDesignThemes" Version="5.3.1" />
+      <PackageReference Include="System.Text.Json" Version="10.0.6" />
     </ItemGroup>
 
     <ItemGroup>
@@ -29,4 +30,16 @@
       <Resource Include="Fonts\Atma\Atma-SemiBold.ttf" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Page Update="Views\AIGenerated_Layout.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+      <Page Update="Views\MainWindow.xaml">
+        <Generator>MSBuild:Compile</Generator>
+        <XamlRuntime>Wpf</XamlRuntime>
+        <SubType>Designer</SubType>
+      </Page>
+    </ItemGroup>
 </Project>

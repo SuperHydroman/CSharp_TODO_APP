@@ -1,4 +1,4 @@
-﻿<Window x:Class="TodoApp.AIGenerated_Layout"
+﻿<Window x:Class="TodoApp.Views.AIGenerated_Layout"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -363,7 +363,6 @@
                                   HorizontalScrollBarVisibility="Disabled">
 
                         <ItemsControl ItemsSource="{Binding Todos}" Name="TodoList">
-
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Vertical" />
@@ -416,9 +415,7 @@
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
-
                         </ItemsControl>
-
                     </ScrollViewer>
                 </Border>
             </Grid>

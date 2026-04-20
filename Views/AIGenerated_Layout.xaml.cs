@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 
-namespace TodoApp
+namespace TodoApp.Views
 {
     public partial class AIGenerated_Layout : Window
     {
