@@ -18,7 +18,9 @@ public class TodoService
             return new List<Todo>();
         
         string json = File.ReadAllText(FilePath);
-        return JsonSerializer.Deserialize<List<Todo>>(json) ?? new List<Todo>();
+        List<Todo> todos = JsonSerializer.Deserialize<List<Todo>>(json) ?? new List<Todo>();
+        
+        return todos.OrderByDescending(t => t.CreatedAt).ToList();
     }
 
     public static void Save(IEnumerable<Todo> todos)

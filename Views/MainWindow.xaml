@@ -44,7 +44,7 @@
 
         <Grid Margin="25 0 25 25" Grid.Row="1">
             <!-- Panel with TODOs -->
-            <Border CornerRadius="25" Background="{StaticResource PrimaryAccentGradient}" Padding="15">
+            <Border CornerRadius="25" Background="{StaticResource PanelBackground}" Padding="15" BorderBrush="{StaticResource Border}" BorderThickness="1">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                     <ItemsControl ItemsSource="{Binding Todos}">
                         <ItemsControl.ItemContainerStyle>
@@ -55,10 +55,24 @@
                         
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border CornerRadius="15" Background="SteelBlue" MinHeight="95" Padding="15">
+                                <Border CornerRadius="15" Background="{StaticResource CardBackground}" MinHeight="95" Padding="15">
                                     <StackPanel>
                                         <TextBlock Text="{ Binding Title }" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" />
                                         <!-- <TextBlock Text="{Binding Description}" FontSize="14" TextWrapping="Wrap" /> -->
+                                        <Border BorderBrush="{StaticResource Divider}" BorderThickness="0 1 0 0"  Padding="0 5 0 0"  Margin="0 5 0 0" />
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="11*" />
+                                                <ColumnDefinition Width="auto" />
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{ Binding CreatedAt, StringFormat='dd MMM yyyy — hh:mm tt' }" FontSize="12" Foreground="{StaticResource Muted}" TextWrapping="Wrap" />
+                                            
+                                            <Button Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource RoundedButton}" Tag="{Binding}" Name="DeleteTodo" Click="DeleteTodoButton_OnClick" Width="35" Height="35">
+                                                <materialDesign:PackIcon Kind="TrashCanOutline" Width="18" Height="18"
+                                                                         Foreground="{StaticResource Muted}" />
+                                            </Button>
+                                        </Grid>
                                     </StackPanel>
                                 </Border>
                             </DataTemplate>
