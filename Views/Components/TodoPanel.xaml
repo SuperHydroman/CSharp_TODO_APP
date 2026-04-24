@@ -25,14 +25,14 @@
                                         <Border BorderBrush="{StaticResource Divider}" BorderThickness="0 1 0 0"  Padding="0 5 0 0"  Margin="0 5 0 0" />
                                         <Grid>
                                             <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="11*" />
+                                                <ColumnDefinition Width="10*" />
                                                 <ColumnDefinition Width="auto" />
                                                 <ColumnDefinition Width="auto" />
                                             </Grid.ColumnDefinitions>
                                             
                                             <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{ Binding CreatedAt, StringFormat='dd MMM yyyy — hh:mm tt' }" FontSize="12" Foreground="{StaticResource Muted}" TextWrapping="Wrap" />
                                             
-                                            <Button Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource RoundedButton}" Tag="{Binding}" Name="CompleteToDoButton" Click="Complete" Width="35" Height="35" Margin="5 0 0 0">
+                                            <Button Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource RoundedButton}" Tag="{Binding}" Name="CompleteToDoButton" Click="Complete" Width="35" Height="35" Margin="0 0 5 0">
                                                 <materialDesign:PackIcon Kind="CheckOutline" Width="18" Height="18" Foreground="{StaticResource Muted}" />
                                             </Button>
                                             

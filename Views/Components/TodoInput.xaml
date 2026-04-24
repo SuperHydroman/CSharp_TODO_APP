@@ -15,7 +15,7 @@
 
         <!-- Text input -->
         <Border Grid.Column="0" CornerRadius="25" Background="{StaticResource Foreground}" HorizontalAlignment="Stretch"
-                VerticalAlignment="Top" Margin="0 0 15 0">
+                VerticalAlignment="Center" Margin="0 0 15 0">
             <TextBox Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalContentAlignment="Center"
                      Background="Transparent" BorderThickness="0" Padding="10" TextWrapping="Wrap" FontSize="24"
                      Name="Input" KeyDown="Submit_OnKeyDown" />
