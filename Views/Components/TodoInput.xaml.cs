@@ -15,12 +15,10 @@ public partial class TodoInput : UserControl
 
     private void Submit_OnKeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Key == Key.Enter) SubmitTodo();
+        if (e.Key == Key.Enter) Submit(sender, e);
     }
 
-    private void Submit(object sender, RoutedEventArgs e) => SubmitTodo();
-
-    private void SubmitTodo()
+    private void Submit(object sender, RoutedEventArgs e)
     {
         string text = Input.Text.Trim();
 

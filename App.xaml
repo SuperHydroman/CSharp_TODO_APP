@@ -6,8 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Resources/Theme.xaml" />
-                <ResourceDictionary Source="Resources/Buttons.xaml" />
+                <ResourceDictionary Source="Resources/Styling/Theme.xaml" />
+                <ResourceDictionary Source="Resources/Styling/Buttons.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

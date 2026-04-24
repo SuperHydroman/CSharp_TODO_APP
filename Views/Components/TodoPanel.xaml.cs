@@ -1,13 +1,13 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using TodoApp.Models;
-using TodoApp.Services;
 
 namespace TodoApp.Views.Components;
 
 public partial class TodoPanel : UserControl
 {
     public event EventHandler<Todo> TodoDeleted;  
+    public event EventHandler<Todo> TodoCompleted;  
     
     public TodoPanel()
     {
@@ -18,5 +18,10 @@ public partial class TodoPanel : UserControl
     {
         if (sender is Button { Tag: Todo todo }) 
             TodoDeleted?.Invoke(this, todo);
+    }
+    private void Complete(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button { Tag: Todo todo }) 
+            TodoCompleted?.Invoke(this, todo);
     }
 }

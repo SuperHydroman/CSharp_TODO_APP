@@ -1,11 +1,11 @@
-﻿<Window x:Class="TodoApp.Views.MainWindow"
+﻿<Window x:Class="TodoApp.Views.MainWindow" 
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:views="clr-namespace:TodoApp.Views.Components"
         mc:Ignorable="d"
+        Icon="/Resources/Images/Icon.ico"
         Title="Todo App - Gideon van den Herik"
         MinHeight="800" Height="800" MaxHeight="800"
         MinWidth="450"  Width="450"  MaxWidth="450"
@@ -23,23 +23,10 @@
             <RowDefinition Height="75" />
         </Grid.RowDefinitions>
         
-        <Grid Margin="25" Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            
-            <Grid Margin="0 0 0 25" Grid.Row="0">
-                <views:TodoInput TodoSubmitted="OnTodoSubmitted" />
-            </Grid>
-
-            <Grid Grid.Row="1">
-                <views:TodoPanel TodoDeleted="OnTodoDeleted" />
-            </Grid>
-        </Grid>
+        <ContentControl Margin="25" Grid.Row="0" x:Name="MainContent" />
             
         <Grid Grid.Row="1">
-            <views:UserNav />
+            <views:UserNav ViewChanged="OnViewChanged" />
         </Grid>
     </Grid>
 </Window>

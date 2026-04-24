@@ -17,21 +17,21 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
                 
-            <Button Grid.Column="0" Style="{StaticResource MenuButton}">
-                <materialDesign:PackIcon Kind="FormatListCheckbox" Width="25" Height="25" Foreground="{StaticResource Muted}" />
+            <Button Grid.Column="0" Style="{StaticResource MenuButton}" Click="ChangeView" Tag="completed">
+                <materialDesign:PackIcon Kind="CheckAll" Width="25" Height="25" Foreground="{StaticResource Muted}" />
             </Button>
                 
             <!-- Divider -->
             <Border Grid.Column="1" Width="1.5" Height="50" Background="{StaticResource Divider}" VerticalAlignment="Center" />
                 
-            <Button Grid.Column="2" Style="{StaticResource MenuButton}" BorderThickness="1 0" BorderBrush="Red">
-                <materialDesign:PackIcon Kind="CheckAll" Width="25" Height="25" Foreground="{StaticResource Muted}" />
+            <Button Grid.Column="2" Style="{StaticResource MenuButton}"  Click="ChangeView" Tag="todos">
+                <materialDesign:PackIcon Kind="FormatListCheckbox" Width="25" Height="25" Foreground="{StaticResource Muted}" />
             </Button>
                 
             <!-- Divider -->
             <Border Grid.Column="3" Width="1.5" Height="50" Background="{StaticResource Divider}" VerticalAlignment="Center" />
                 
-            <Button Grid.Column="4" Style="{StaticResource MenuButton}">
+            <Button Grid.Column="4" Style="{StaticResource MenuButton}" Click="ChangeView" Tag="deleted">
                 <materialDesign:PackIcon Kind="DeleteOutline" Width="25" Height="25" Foreground="{StaticResource Muted}" />
             </Button>
         </Grid>

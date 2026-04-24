@@ -9,8 +9,12 @@ public static class TodoService
 { 
     // Saves next to your .exe
     private static readonly string FilePath = Path.Combine(
-        AppDomain.CurrentDomain.BaseDirectory, "todos.json"
+        Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        "TodoApp",
+        "data.json"
     );
+    
+    private static readonly JsonSerializerOptions Options = new() { WriteIndented = true };
 
     public static List<Todo> Load()
     {
@@ -18,17 +22,18 @@ public static class TodoService
             return new List<Todo>();
         
         string json = File.ReadAllText(FilePath);
-        List<Todo> todos = JsonSerializer.Deserialize<List<Todo>>(json) ?? new List<Todo>();
+        List<Todo> todos = JsonSerializer.Deserialize<List<Todo>>(json, Options) ?? new List<Todo>();
         
         return todos.OrderByDescending(t => t.CreatedAt).ToList();
     }
 
     public static void Save(IEnumerable<Todo> todos)
     {
-        string json = JsonSerializer.Serialize(todos, new JsonSerializerOptions { WriteIndented = true });
+        string directory = Path.GetDirectoryName(FilePath)!;
+        if (!Directory.Exists(directory)) 
+            Directory.CreateDirectory(directory);
         
-        if (string.IsNullOrWhiteSpace(json)) return;
-        
+        string json = JsonSerializer.Serialize(todos, Options);
         File.WriteAllText(FilePath, json);
     }
 }
