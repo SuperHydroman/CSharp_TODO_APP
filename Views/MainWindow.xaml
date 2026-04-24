@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:views="clr-namespace:TodoApp.Views.Components"
         mc:Ignorable="d"
         Title="Todo App - Gideon van den Herik"
         MinHeight="800" Height="800" MaxHeight="800"
@@ -18,68 +19,27 @@
         FontFamily="/Fonts/Atma/#Atma">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="75" />
         </Grid.RowDefinitions>
+        
         <Grid Margin="25" Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <Grid Margin="0 0 0 25" Grid.Row="0">
+                <views:TodoInput TodoSubmitted="OnTodoSubmitted" />
+            </Grid>
 
-            <!-- Text input -->
-            <Border Grid.Column="0" CornerRadius="25" Background="White" HorizontalAlignment="Stretch"
-                    VerticalAlignment="Top" Margin="0 0 15 0">
-                <TextBox Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalContentAlignment="Center"
-                         Background="Transparent" BorderThickness="0" Padding="10" TextWrapping="Wrap" FontSize="24"
-                         Name="NewTodoTextBox" KeyDown="NewTodoTextBox_OnKeyDown" />
-            </Border>
-
-            <!-- Submit button -->
-            <Button Grid.Column="1" Style="{StaticResource RoundedButton}" Width="50" Height="50" Name="AddButton"
-                    Click="AddButton_OnClick">
-                <materialDesign:PackIcon Kind="Plus" Width="24" Height="24" />
-            </Button>
+            <Grid Grid.Row="1">
+                <views:TodoPanel TodoDeleted="OnTodoDeleted" />
+            </Grid>
         </Grid>
-
-        <Grid Margin="25 0 25 25" Grid.Row="1">
-            <!-- Panel with TODOs -->
-            <Border CornerRadius="25" Background="{StaticResource PanelBackground}" Padding="15" BorderBrush="{StaticResource Border}" BorderThickness="1">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <ItemsControl ItemsSource="{Binding Todos}">
-                        <ItemsControl.ItemContainerStyle>
-                            <Style TargetType="ContentPresenter">
-                            <Setter Property="Margin" Value="0 0 0 15" />
-                            </Style>
-                        </ItemsControl.ItemContainerStyle>
-                        
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border CornerRadius="15" Background="{StaticResource CardBackground}" MinHeight="95" Padding="15">
-                                    <StackPanel>
-                                        <TextBlock Text="{ Binding Title }" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" />
-                                        <!-- <TextBlock Text="{Binding Description}" FontSize="14" TextWrapping="Wrap" /> -->
-                                        <Border BorderBrush="{StaticResource Divider}" BorderThickness="0 1 0 0"  Padding="0 5 0 0"  Margin="0 5 0 0" />
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="11*" />
-                                                <ColumnDefinition Width="auto" />
-                                            </Grid.ColumnDefinitions>
-                                            
-                                            <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{ Binding CreatedAt, StringFormat='dd MMM yyyy — hh:mm tt' }" FontSize="12" Foreground="{StaticResource Muted}" TextWrapping="Wrap" />
-                                            
-                                            <Button Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource RoundedButton}" Tag="{Binding}" Name="DeleteTodo" Click="DeleteTodoButton_OnClick" Width="35" Height="35">
-                                                <materialDesign:PackIcon Kind="TrashCanOutline" Width="18" Height="18"
-                                                                         Foreground="{StaticResource Muted}" />
-                                            </Button>
-                                        </Grid>
-                                    </StackPanel>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-            </Border>
+            
+        <Grid Grid.Row="1">
+            <views:UserNav />
         </Grid>
     </Grid>
 </Window>

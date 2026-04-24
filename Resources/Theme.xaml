@@ -1,0 +1,33 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!-- Background Layers -->
+    <SolidColorBrush x:Key="Background" Color="#0D0D12" />
+    <SolidColorBrush x:Key="PanelBackground" Color="#1A1A2E" />
+    <SolidColorBrush x:Key="CardBackground" Color="#252542" />
+
+    <!-- Text -->
+    <SolidColorBrush x:Key="Foreground" Color="#E8E6F0" />
+    <SolidColorBrush x:Key="Muted" Color="#9896A8" />
+
+    <!-- Borders & Dividers -->
+    <SolidColorBrush x:Key="Border" Color="#2E2E4A" />
+    <SolidColorBrush x:Key="Divider" Color="#363655" />
+
+    <!-- Accent Button -->
+    <SolidColorBrush x:Key="Accent" Color="#7B2FFF" />
+    <SolidColorBrush x:Key="AccentHover" Color="#9355FF" />
+    <SolidColorBrush x:Key="AccentPressed" Color="#6518E6" />
+    
+    <!-- Confirm Button -->
+    <SolidColorBrush x:Key="Confirm" Color="#2FE68A" />
+    <SolidColorBrush x:Key="ConfirmHover" Color="#50FFA3" />
+    <SolidColorBrush x:Key="ConfirmPressed" Color="#1FBF6E" />
+
+    <!-- Cancel Button -->
+    <SolidColorBrush x:Key="Cancel" Color="#FF4572" />
+    <SolidColorBrush x:Key="CancelHover" Color="#FF6B91" />
+    <SolidColorBrush x:Key="CancelPressed" Color="#D93260" />
+
+    <!-- Status -->
+    <SolidColorBrush x:Key="Success" Color="#4EC9A0" />
+    <SolidColorBrush x:Key="Error" Color="#E5534B" />
+</ResourceDictionary>

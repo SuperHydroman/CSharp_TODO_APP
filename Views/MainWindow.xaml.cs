@@ -1,8 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using TodoApp.Models;
 using TodoApp.Services;
 
@@ -21,34 +19,16 @@ public partial class MainWindow : Window
         DataContext = this;
     }
 
-    private void NewTodoTextBox_OnKeyDown(object sender, KeyEventArgs e)
+    private void OnTodoSubmitted(object sender, string text)
     {
-        if (e.Key == Key.Enter) CreateTodo();
+        Todos.Insert(0, new Todo { Title = text, CreatedAt = DateTime.Now });
+        TodoService.Save(Todos);
     }
 
-    private void AddButton_OnClick(object sender, RoutedEventArgs e) => CreateTodo();
-
-    private void DeleteTodoButton_OnClick(object sender, RoutedEventArgs e)
+    private void OnTodoDeleted(object sender, Todo todo)
     {
-        Button button = (Button) sender;
-        Todo todo = (Todo)button.Tag;
-        
         Todos.Remove(todo);
         TodoService.Save(Todos);
-    }
-
-    private void CreateTodo()
-    {
-        string text = NewTodoTextBox.Text;
-
-        if (string.IsNullOrWhiteSpace(text)) return;
-
-        Todo todo = new Todo { Title = text, CreatedAt = DateTime.Now };
-        
-        Todos.Insert(0, todo);
-        TodoService.Save(Todos);
-        
-        NewTodoTextBox.Clear();
     }
 
     protected override void OnClosing(CancelEventArgs e)
