@@ -27,6 +27,8 @@ public static class TodoService
                 return list;
             }
             
+            OpenDebugFile();
+            
             string json = File.ReadAllText(FilePath);
             List<Todo> todos = JsonSerializer.Deserialize<List<Todo>>(json, Options) 
                                ?? new List<Todo>();
@@ -57,7 +59,7 @@ public static class TodoService
         }
     }
 
-    #if DEBUG
+    [Conditional("DEBUG")]
     private static void OpenDebugFile()
     {
         bool isOpen = Process.GetProcessesByName("notepad").Any(p => p.MainWindowTitle.Contains("data.json"));
@@ -67,5 +69,4 @@ public static class TodoService
         if (File.Exists(FilePath))
             Process.Start("notepad.exe", FilePath);
     }
-    #endif
 }
