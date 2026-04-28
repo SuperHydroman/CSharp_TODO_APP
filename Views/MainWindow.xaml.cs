@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Windows;
 using TodoApp.Models;
 using TodoApp.Services;
+using TodoApp.Views.Components;
 using TodoApp.Views.Pages;
 
 namespace TodoApp.Views;
@@ -30,6 +31,18 @@ public partial class MainWindow : Window
         _todoList.TodoDeleted += OnTodoDeleted;
         _todoList.TodoCompleted += OnTodoCompleted;
         
+        _completedList.TodoRestored += OnTodoRestored;
+        _completedList.TodoDeleted += OnTodoDeleted;
+        _completedList.SearchSubmitted += (sender, query) => 
+            OnSearch(sender, query, CompletedTodos, _completedList.TodoPanel);
+        
+        
+        _deletedList.TodoRestored += OnTodoRestored;
+        _deletedList.TodoDeleted += OnTodoDeleted;
+        _deletedList.SearchSubmitted += (sender, query) => 
+            OnSearch(sender, query, DeletedTodos, _deletedList.TodoPanel);
+        
+        
         // Set default page on start
         MainContent.Content = _todoList;
     }
@@ -44,16 +57,63 @@ public partial class MainWindow : Window
     {
         todo.IsCompleted = true;
         todo.CompletedAt = DateTime.Now;
+
+        Todos.Remove(todo);
+        CompletedTodos.Insert(0, todo);
+        
         SaveAll();
     }
     
     private void OnTodoDeleted(object? sender, Todo todo)
     {
+        if (todo is { IsDeleted: true, DeletedAt: not null })
+        {
+            RemoveTodo(todo);
+            return;
+        }
+        
         todo.IsCompleted = false;
         todo.CompletedAt = null;
         todo.IsDeleted = true;
         todo.DeletedAt = DateTime.Now;
+
+        Todos.Remove(todo);
+        CompletedTodos.Remove(todo);
+        DeletedTodos.Insert(0, todo);
+        
         SaveAll();
+    }
+
+    private void OnTodoRestored(object? sender, Todo todo)
+    {
+        if (todo is { IsCompleted: true, CompletedAt: not null })
+        {
+            todo.IsCompleted = false;
+            todo.CompletedAt = null;
+            CompletedTodos.Remove(todo);
+        } else if (todo is { IsDeleted: true, DeletedAt: not null })
+        {
+            todo.IsDeleted = false;
+            todo.DeletedAt = null;
+            DeletedTodos.Remove(todo);
+        }
+        
+        Todos.Insert(0, todo);
+        SaveAll();
+    }
+
+    protected void OnSearch(object? sender, string query, ObservableCollection<Todo> source, TodoPanel panel)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            panel.ItemsSource = source;
+            return;
+        }
+        
+        ObservableCollection<Todo> filtered = new ObservableCollection<Todo>(
+            source.Where(t => t.Title.Contains(query, StringComparison.OrdinalIgnoreCase)));
+        
+        panel.ItemsSource = filtered;
     }
 
     protected override void OnClosing(CancelEventArgs e)
@@ -95,5 +155,11 @@ public partial class MainWindow : Window
             .ToList();
         
         TodoService.Save(allTodos);
+    }
+    
+    private void RemoveTodo(Todo todo)
+    {
+        DeletedTodos.Remove(todo);
+        SaveAll();
     }
 }

@@ -8,6 +8,7 @@ public partial class TodoPanel : UserControl
 {
     public event EventHandler<Todo> TodoDeleted;  
     public event EventHandler<Todo> TodoCompleted;  
+    public event EventHandler<Todo> TodoRestored;  
     
     public TodoPanel()
     {
@@ -19,9 +20,16 @@ public partial class TodoPanel : UserControl
         if (sender is Button { Tag: Todo todo }) 
             TodoDeleted?.Invoke(this, todo);
     }
+    
     private void Complete(object sender, RoutedEventArgs e)
     {
         if (sender is Button { Tag: Todo todo }) 
             TodoCompleted?.Invoke(this, todo);
+    }
+    
+    private void Restore(object sender, RoutedEventArgs e)
+    {
+        if (sender is Button { Tag: Todo todo }) 
+            TodoRestored?.Invoke(this, todo);
     }
 }

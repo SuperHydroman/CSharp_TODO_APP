@@ -6,10 +6,11 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:TodoApp.Views.Components"
              mc:Ignorable="d"
-             d:DesignHeight="600" d:DesignWidth="400">
+             d:DesignHeight="600" d:DesignWidth="400"
+             x:Name="Root">
     <Border CornerRadius="25" Background="{StaticResource PanelBackground}" Padding="15" BorderBrush="{StaticResource Border}" BorderThickness="1">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-                    <ItemsControl ItemsSource="{Binding Todos}">
+                    <ItemsControl ItemsSource="{Binding ItemsSource, ElementName=Root}">
                         <ItemsControl.ItemContainerStyle>
                             <Style TargetType="ContentPresenter">
                                 <Setter Property="Margin" Value="0 0 0 15" />
@@ -20,9 +21,24 @@
                             <DataTemplate>
                                 <Border CornerRadius="15" Background="{StaticResource CardBackground}" MinHeight="95" Padding="15">
                                     <StackPanel>
-                                        <TextBlock Text="{ Binding Title }" FontSize="16" FontWeight="Bold" TextWrapping="Wrap" />
-                                        <!-- <TextBlock Text="{Binding Description}" FontSize="14" TextWrapping="Wrap" /> -->
+                                        <!-- Title -->
+                                        <TextBlock Text="{ Binding Title }" FontSize="16" FontWeight="Bold" TextWrapping="Wrap">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsStrikethrough, ElementName=Root}" Value="True">
+                                                            <Setter Property="TextDecorations" Value="Strikethrough" />
+                                                            <Setter Property="Foreground" Value="{StaticResource Muted}" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                        
+                                        <!-- Divider -->
                                         <Border BorderBrush="{StaticResource Divider}" BorderThickness="0 1 0 0"  Padding="0 5 0 0"  Margin="0 5 0 0" />
+                                        
+                                        <!-- Card content -->
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="11*" />
@@ -30,13 +46,25 @@
                                                 <ColumnDefinition Width="auto" />
                                             </Grid.ColumnDefinitions>
                                             
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="35" />
+                                            </Grid.RowDefinitions>
+                                            
+                                            <!-- Created at -->
                                             <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{ Binding CreatedAt, StringFormat='dd MMM yyyy — hh:mm tt' }" FontSize="12" Foreground="{StaticResource Muted}" TextWrapping="Wrap" />
                                             
-                                            <Button Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource RoundedButton}" Tag="{Binding}" Name="CompleteToDoButton" Click="Complete" Width="35" Height="35" Margin="5 0 0 0">
+                                            <!-- Restore button -->
+                                            <Button Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource RoundedButton}" Tag="{Binding}" Name="RestoreTodoButton" Click="Restore" Margin="0 0 5 0" Visibility="{Binding ShowRestoreButton, ElementName=Root, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                                <materialDesign:PackIcon Kind="Restore" Width="18" Height="18" Foreground="{StaticResource Muted}" />
+                                            </Button>
+                                            
+                                            <!-- Complete button -->
+                                            <Button Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource RoundedButton}" Tag="{Binding}" Name="CompleteToDoButton" Click="Complete" Margin="0 0 5 0" Visibility="{Binding ShowCompleteButton, ElementName=Root, Converter={StaticResource BooleanToVisibilityConverter}}">
                                                 <materialDesign:PackIcon Kind="CheckOutline" Width="18" Height="18" Foreground="{StaticResource Muted}" />
                                             </Button>
                                             
-                                            <Button Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource RoundedButton}" Tag="{Binding}" Name="DeleteTodoButton" Click="Delete" Width="35" Height="35">
+                                            <!-- Delete button -->
+                                            <Button Grid.Column="2" VerticalAlignment="Center" Style="{StaticResource RoundedButton}" Tag="{Binding}" Name="DeleteTodoButton" Click="Delete" Visibility="{Binding ShowDeleteButton, ElementName=Root, Converter={StaticResource BooleanToVisibilityConverter}}">
                                                 <materialDesign:PackIcon Kind="TrashCanOutline" Width="18" Height="18" Foreground="{StaticResource Muted}" />
                                             </Button>
                                         </Grid>

@@ -72,4 +72,10 @@
         <SubType>Designer</SubType>
       </Page>
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Views\Components\TodoPanel.Properties.cs">
+        <DependentUpon>TodoPanel.xaml</DependentUpon>
+      </Compile>
+    </ItemGroup>
 </Project>

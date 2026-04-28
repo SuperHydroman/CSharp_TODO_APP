@@ -14,11 +14,17 @@
         </Grid.RowDefinitions>
         
         <Grid Margin="0 0 0 25" Grid.Row="0">
-            <views:TodoSearch />
+            <views:TodoSearch SearchSubmitted="OnSearch" />
         </Grid>
 
         <Grid Grid.Row="1">
-            <views:TodoPanel TodoDeleted="OnTodoDeleted" />
+            <views:TodoPanel x:Name="TodoPanel"
+                ItemsSource="{Binding CompletedTodos}"
+                ShowDeleteButton="True"
+                ShowRestoreButton="True"
+                IsStrikethrough="True"
+                TodoDeleted="OnTodoDeleted"
+                TodoRestored="OnTodoRestored" />
         </Grid>
     </Grid>
 </UserControl>

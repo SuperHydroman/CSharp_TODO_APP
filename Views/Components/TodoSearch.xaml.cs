@@ -6,7 +6,7 @@ namespace TodoApp.Views.Components;
 
 public partial class TodoSearch : UserControl
 {
-    public event EventHandler<string> TodoSubmitted;
+    public event EventHandler<string> SearchSubmitted;
     
     public TodoSearch()
     {
@@ -20,10 +20,7 @@ public partial class TodoSearch : UserControl
 
     private void Search(object sender, RoutedEventArgs e)
     {
-        Console.WriteLine("Search accepted!");
-        Console.WriteLine();
-        Console.WriteLine(sender);
-        Console.WriteLine(e);
-
+        string query = Input.Text.Trim();
+        SearchSubmitted?.Invoke(this, query);
     }
 }

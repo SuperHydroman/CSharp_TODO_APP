@@ -15,17 +15,11 @@ public partial class TodoList : UserControl
     }
 
     private void OnTodoSubmitted(object sender, string text)
-    {
-        TodoSubmitted?.Invoke(this, text);
-    }
+        => TodoSubmitted?.Invoke(this, text);
 
     private void OnTodoDeleted(object sender, Todo todo)
-    {
-        TodoDeleted?.Invoke(this, todo);
-    }
+        => TodoDeleted?.Invoke(this, todo);
 
     private void OnTodoCompleted(object sender, Todo todo)
-    {
-        TodoCompleted?.Invoke(this, todo);
-    }
+        => TodoCompleted?.Invoke(this, todo);
 }

@@ -17,6 +17,7 @@
         <Border Grid.Column="0" CornerRadius="25" Background="{StaticResource Foreground}" HorizontalAlignment="Stretch"
                 VerticalAlignment="Top" Margin="0 0 15 0">
             <TextBox Height="50" HorizontalAlignment="Stretch" VerticalAlignment="Top" VerticalContentAlignment="Center"
+                     materialDesign:HintAssist.Hint="Search by title" materialDesign:HintAssist.IsFloating="False" Foreground="{StaticResource Background}"
                      Background="Transparent" BorderThickness="0" Padding="10" TextWrapping="Wrap" FontSize="24"
                      Name="Input" KeyDown="Search_OnKeyDown" />
         </Border>

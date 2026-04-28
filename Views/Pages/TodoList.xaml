@@ -18,7 +18,12 @@
         </Grid>
 
         <Grid Grid.Row="1">
-            <views:TodoPanel TodoDeleted="OnTodoDeleted" TodoCompleted="OnTodoCompleted" />
+            <views:TodoPanel x:Name="TodoPanel"
+                ItemsSource="{Binding Todos}"
+                ShowCompleteButton="True"
+                ShowDeleteButton="True"
+                TodoCompleted="OnTodoCompleted"
+                TodoDeleted="OnTodoDeleted" />
         </Grid>
     </Grid>
 </UserControl>

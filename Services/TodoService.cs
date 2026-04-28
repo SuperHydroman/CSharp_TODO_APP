@@ -1,6 +1,6 @@
-﻿using System.IO;
+﻿using System.Diagnostics;
+using System.IO;
 using System.Text.Json;
-using System.Windows.Documents;
 using TodoApp.Models;
 
 namespace TodoApp.Services;
@@ -19,10 +19,23 @@ public static class TodoService
     public static List<Todo> Load()
     {
         if (!File.Exists(FilePath))
-            return new List<Todo>();
+        {
+            List<Todo> list = new List<Todo>();
+            Save(list);
+            
+            #if DEBUG
+            OpenDebugFile();
+            #endif
+            
+            return list;
+        }
         
         string json = File.ReadAllText(FilePath);
         List<Todo> todos = JsonSerializer.Deserialize<List<Todo>>(json, Options) ?? new List<Todo>();
+        
+        #if DEBUG
+        OpenDebugFile();
+        #endif
         
         return todos.OrderByDescending(t => t.CreatedAt).ToList();
     }
@@ -36,4 +49,16 @@ public static class TodoService
         string json = JsonSerializer.Serialize(todos, Options);
         File.WriteAllText(FilePath, json);
     }
+
+    #if DEBUG
+    private static void OpenDebugFile()
+    {
+        bool isOpen = Process.GetProcessesByName("notepad").Any(p => p.MainWindowTitle.Contains("data.json"));
+        
+        if (isOpen) return;
+        
+        if (File.Exists(FilePath))
+            Process.Start("notepad.exe", FilePath);
+    }
+    #endif
 }
