@@ -6,8 +6,7 @@ using TodoApp.Models;
 namespace TodoApp.Services;
 
 public static class TodoService
-{ 
-    // Saves next to your .exe
+{
     private static readonly string FilePath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
         "TodoApp",
