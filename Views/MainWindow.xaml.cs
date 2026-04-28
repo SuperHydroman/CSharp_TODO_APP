@@ -10,9 +10,9 @@ namespace TodoApp.Views;
 
 public partial class MainWindow : Window
 {
-    public ObservableCollection<Todo> Todos { get; set; }
-    public ObservableCollection<Todo> CompletedTodos { get; set; }
-    public ObservableCollection<Todo> DeletedTodos { get; set; }
+    public ObservableCollection<Todo>? Todos { get; set; }
+    public ObservableCollection<Todo>? CompletedTodos { get; set; }
+    public ObservableCollection<Todo>? DeletedTodos { get; set; }
     
     // Pages
     private readonly TodoList _todoList = new();
@@ -34,22 +34,22 @@ public partial class MainWindow : Window
         _completedList.TodoRestored += OnTodoRestored;
         _completedList.TodoDeleted += OnTodoDeleted;
         _completedList.SearchSubmitted += (sender, query) => 
-            OnSearch(sender, query, CompletedTodos, _completedList.TodoPanel);
+            OnSearch(sender, query, CompletedTodos!, _completedList.TodoPanel);
         
         
         _deletedList.TodoRestored += OnTodoRestored;
         _deletedList.TodoDeleted += OnTodoDeleted;
         _deletedList.SearchSubmitted += (sender, query) => 
-            OnSearch(sender, query, DeletedTodos, _deletedList.TodoPanel);
+            OnSearch(sender, query, DeletedTodos!, _deletedList.TodoPanel);
         
         
-        // Set default page on start
+        // Set the default page on start
         MainContent.Content = _todoList;
     }
 
     private void OnTodoSubmitted(object? sender, string text)
     {
-        Todos.Insert(0, new Todo { Title = text, CreatedAt = DateTime.Now });
+        Todos?.Insert(0, new Todo { Title = text, CreatedAt = DateTime.Now });
         SaveAll();
     }
 
@@ -58,8 +58,8 @@ public partial class MainWindow : Window
         todo.IsCompleted = true;
         todo.CompletedAt = DateTime.Now;
 
-        Todos.Remove(todo);
-        CompletedTodos.Insert(0, todo);
+        Todos?.Remove(todo);
+        CompletedTodos?.Insert(0, todo);
         
         SaveAll();
     }
@@ -77,9 +77,9 @@ public partial class MainWindow : Window
         todo.IsDeleted = true;
         todo.DeletedAt = DateTime.Now;
 
-        Todos.Remove(todo);
-        CompletedTodos.Remove(todo);
-        DeletedTodos.Insert(0, todo);
+        Todos?.Remove(todo);
+        CompletedTodos?.Remove(todo);
+        DeletedTodos?.Insert(0, todo);
         
         SaveAll();
     }
@@ -90,19 +90,19 @@ public partial class MainWindow : Window
         {
             todo.IsCompleted = false;
             todo.CompletedAt = null;
-            CompletedTodos.Remove(todo);
+            CompletedTodos?.Remove(todo);
         } else if (todo is { IsDeleted: true, DeletedAt: not null })
         {
             todo.IsDeleted = false;
             todo.DeletedAt = null;
-            DeletedTodos.Remove(todo);
+            DeletedTodos?.Remove(todo);
         }
         
-        Todos.Insert(0, todo);
+        Todos?.Insert(0, todo);
         SaveAll();
     }
 
-    protected void OnSearch(object? sender, string query, ObservableCollection<Todo> source, TodoPanel panel)
+    private static void OnSearch(object? sender, string query, ObservableCollection<Todo> source, TodoPanel panel)
     {
         if (string.IsNullOrWhiteSpace(query))
         {
@@ -149,9 +149,9 @@ public partial class MainWindow : Window
     
     private void SaveAll()
     {
-        List<Todo> allTodos = Todos
-            .Concat(CompletedTodos)
-            .Concat(DeletedTodos)
+        List<Todo> allTodos = Todos!
+            .Concat(CompletedTodos!)
+            .Concat(DeletedTodos!)
             .ToList();
         
         TodoService.Save(allTodos);
@@ -159,7 +159,7 @@ public partial class MainWindow : Window
     
     private void RemoveTodo(Todo todo)
     {
-        DeletedTodos.Remove(todo);
+        DeletedTodos?.Remove(todo);
         SaveAll();
     }
 }
