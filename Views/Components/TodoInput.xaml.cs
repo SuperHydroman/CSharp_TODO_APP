@@ -6,7 +6,7 @@ namespace TodoApp.Views.Components;
 
 public partial class TodoInput : UserControl
 {
-    public event EventHandler<string> TodoSubmitted;
+    public event EventHandler<string>? TodoSubmitted;
     
     public TodoInput()
     {

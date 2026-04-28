@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Data;
 using TodoApp.Models;
 using TodoApp.Services;
-using TodoApp.Views.Components;
 using TodoApp.Views.Pages;
 
 namespace TodoApp.Views;
@@ -24,28 +23,42 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         DataContext = this;
-
         LoadTodoData();
         
-        // Wire up the events
+        SubscribeEvents();
+        
+        // Set the default page
+        MainContent.Content = _todoList;
+    }
+
+    private void SubscribeEvents()
+    {
         _todoList.TodoSubmitted += OnTodoSubmitted;
         _todoList.TodoDeleted += OnTodoDeleted;
         _todoList.TodoCompleted += OnTodoCompleted;
         
         _completedList.TodoRestored += OnTodoRestored;
         _completedList.TodoDeleted += OnTodoDeleted;
-        _completedList.SearchSubmitted += (sender, query) => 
-            OnSearch(sender, query, CompletedTodos!);
-        
+        _completedList.SearchSubmitted += OnCompletedSearch;
         
         _deletedList.TodoRestored += OnTodoRestored;
         _deletedList.TodoDeleted += OnTodoDeleted;
-        _deletedList.SearchSubmitted += (sender, query) => 
-            OnSearch(sender, query, DeletedTodos!);
+        _deletedList.SearchSubmitted += OnDeletedSearch;
+    }
+    
+    private void UnSubscribeEvents()
+    {
+        _todoList.TodoSubmitted -= OnTodoSubmitted;
+        _todoList.TodoDeleted -= OnTodoDeleted;
+        _todoList.TodoCompleted -= OnTodoCompleted;
         
+        _completedList.TodoRestored -= OnTodoRestored;
+        _completedList.TodoDeleted -= OnTodoDeleted;
+        _completedList.SearchSubmitted -= OnCompletedSearch;
         
-        // Set the default page on start
-        MainContent.Content = _todoList;
+        _deletedList.TodoRestored -= OnTodoRestored;
+        _deletedList.TodoDeleted -= OnTodoDeleted;
+        _deletedList.SearchSubmitted -= OnDeletedSearch;
     }
 
     private void OnTodoSubmitted(object? sender, string text)
@@ -111,13 +124,7 @@ public partial class MainWindow : Window
             : obj => obj is Todo t && t.Title.Contains(query, StringComparison.OrdinalIgnoreCase);
     }
 
-    protected override void OnClosing(CancelEventArgs e)
-    {
-        SaveAll();
-        base.OnClosing(e);
-    }
-
-    private void OnViewChanged(object sender, string view)
+    private void OnViewChanged(object? sender, string view)
     {
         MainContent.Content = view switch
         {
@@ -127,16 +134,23 @@ public partial class MainWindow : Window
             _ => _todoList
         };
     }
+    
+    protected override void OnClosed(EventArgs e)
+    {
+        UnSubscribeEvents();
+        SaveAll();
+        base.OnClosed(e);
+    }
 
     private void LoadTodoData()
     {
         List<Todo> allTodos = TodoService.Load();
         
         Todos = new ObservableCollection<Todo>(
-            allTodos.Where(t => !t.IsCompleted && !t.IsDeleted));
+            allTodos.Where(t => t is { IsCompleted: false, IsDeleted: false }));
         
         CompletedTodos = new ObservableCollection<Todo>(
-            allTodos.Where(t => t.IsCompleted && !t.IsDeleted));
+            allTodos.Where(t => t is { IsCompleted: true, IsDeleted: false }));
         
         DeletedTodos = new ObservableCollection<Todo>(
             allTodos.Where(t => t.IsDeleted));
@@ -144,9 +158,11 @@ public partial class MainWindow : Window
     
     private void SaveAll()
     {
-        List<Todo> allTodos = Todos!
-            .Concat(CompletedTodos!)
-            .Concat(DeletedTodos!)
+        IEnumerable<Todo> fallback = Enumerable.Empty<Todo>();
+        
+        List<Todo> allTodos = (Todos ?? fallback)
+            .Concat(CompletedTodos ?? fallback)
+            .Concat(DeletedTodos ?? fallback)
             .ToList();
         
         TodoService.Save(allTodos);
@@ -157,4 +173,11 @@ public partial class MainWindow : Window
         DeletedTodos?.Remove(todo);
         SaveAll();
     }
+        
+    private void OnCompletedSearch(object? sender, string query) 
+        => OnSearch(sender, query, CompletedTodos!);
+        
+    private void OnDeletedSearch(object? sender, string query)
+        => OnSearch(sender, query, DeletedTodos!);
+    
 }

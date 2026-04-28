@@ -22,7 +22,7 @@
                                 <Border CornerRadius="15" Background="{StaticResource CardBackground}" MinHeight="95" Padding="15">
                                     <StackPanel>
                                         <!-- Title -->
-                                        <TextBlock Text="{ Binding Title }" FontSize="16" FontWeight="Bold" TextWrapping="Wrap">
+                                        <TextBlock Text="{Binding Title}" FontSize="16" FontWeight="Bold" TextWrapping="Wrap">
                                             <TextBlock.Style>
                                                 <Style TargetType="TextBlock">
                                                     <Style.Triggers>
@@ -51,7 +51,7 @@
                                             </Grid.RowDefinitions>
                                             
                                             <!-- Created at -->
-                                            <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{ Binding CreatedAt, StringFormat='dd MMM yyyy — hh:mm tt' }" FontSize="12" Foreground="{StaticResource Muted}" TextWrapping="Wrap" />
+                                            <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{Binding CreatedAt, StringFormat='dd MMM yyyy — hh:mm tt'}" FontSize="12" Foreground="{StaticResource Muted}" TextWrapping="Wrap" />
                                             
                                             <!-- Restore button -->
                                             <Button Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource RoundedButton}" Tag="{Binding}" Name="RestoreTodoButton" Click="Restore" Margin="0 0 5 0" Visibility="{Binding ShowRestoreButton, ElementName=Root, Converter={StaticResource BooleanToVisibilityConverter}}">
