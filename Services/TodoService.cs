@@ -18,36 +18,43 @@ public static class TodoService
 
     public static List<Todo> Load()
     {
-        if (!File.Exists(FilePath))
+        try
         {
-            List<Todo> list = new List<Todo>();
-            Save(list);
+            if (!File.Exists(FilePath))
+            {
+                List<Todo> list = new List<Todo>();
+                Save(list);
+                return list;
+            }
             
-            #if DEBUG
-            OpenDebugFile();
-            #endif
+            string json = File.ReadAllText(FilePath);
+            List<Todo> todos = JsonSerializer.Deserialize<List<Todo>>(json, Options) 
+                               ?? new List<Todo>();
             
-            return list;
+            return todos.OrderByDescending(t => t.CreatedAt).ToList();
         }
-        
-        string json = File.ReadAllText(FilePath);
-        List<Todo> todos = JsonSerializer.Deserialize<List<Todo>>(json, Options) ?? new List<Todo>();
-        
-        #if DEBUG
-        OpenDebugFile();
-        #endif
-        
-        return todos.OrderByDescending(t => t.CreatedAt).ToList();
+        catch (Exception e)
+        {
+            Debug.WriteLine($"[TodoService] Failed to load: {e.Message}");
+            return new List<Todo>();
+        }
     }
 
     public static void Save(IEnumerable<Todo> todos)
     {
-        string directory = Path.GetDirectoryName(FilePath)!;
-        if (!Directory.Exists(directory)) 
-            Directory.CreateDirectory(directory);
+        try
+        {
+            string directory = Path.GetDirectoryName(FilePath)!;
+            if (!Directory.Exists(directory)) 
+                Directory.CreateDirectory(directory);
         
-        string json = JsonSerializer.Serialize(todos, Options);
-        File.WriteAllText(FilePath, json);
+            string json = JsonSerializer.Serialize(todos, Options);
+            File.WriteAllText(FilePath, json);
+        }
+        catch (Exception e)
+        {
+            Debug.WriteLine($"[TodoService] Failed to save: {e.Message}");
+        }
     }
 
     #if DEBUG
