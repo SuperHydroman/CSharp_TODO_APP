@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Data;
 using TodoApp.Models;
 using TodoApp.Services;
 using TodoApp.Views.Components;
@@ -34,13 +35,13 @@ public partial class MainWindow : Window
         _completedList.TodoRestored += OnTodoRestored;
         _completedList.TodoDeleted += OnTodoDeleted;
         _completedList.SearchSubmitted += (sender, query) => 
-            OnSearch(sender, query, CompletedTodos!, _completedList.TodoPanel);
+            OnSearch(sender, query, CompletedTodos!);
         
         
         _deletedList.TodoRestored += OnTodoRestored;
         _deletedList.TodoDeleted += OnTodoDeleted;
         _deletedList.SearchSubmitted += (sender, query) => 
-            OnSearch(sender, query, DeletedTodos!, _deletedList.TodoPanel);
+            OnSearch(sender, query, DeletedTodos!);
         
         
         // Set the default page on start
@@ -102,18 +103,12 @@ public partial class MainWindow : Window
         SaveAll();
     }
 
-    private static void OnSearch(object? sender, string query, ObservableCollection<Todo> source, TodoPanel panel)
+    private static void OnSearch(object? sender, string query, ObservableCollection<Todo> source)
     {
-        if (string.IsNullOrWhiteSpace(query))
-        {
-            panel.ItemsSource = source;
-            return;
-        }
-        
-        ObservableCollection<Todo> filtered = new ObservableCollection<Todo>(
-            source.Where(t => t.Title.Contains(query, StringComparison.OrdinalIgnoreCase)));
-        
-        panel.ItemsSource = filtered;
+        ICollectionView view = CollectionViewSource.GetDefaultView(source);
+        view.Filter = string.IsNullOrWhiteSpace(query)
+            ? null
+            : obj => obj is Todo t && t.Title.Contains(query, StringComparison.OrdinalIgnoreCase);
     }
 
     protected override void OnClosing(CancelEventArgs e)
