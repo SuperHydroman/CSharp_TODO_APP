@@ -24,6 +24,10 @@ public class TodoState
         
         DeletedTodos = new ObservableCollection<Todo>(
             all.Where(t => t.IsDeleted));
+
+        SortByDate(Todos);
+        SortByDate(CompletedTodos);
+        SortByDate(DeletedTodos);
     }
     
     public void Add(string text)
@@ -106,5 +110,11 @@ public class TodoState
         todo.CompletedAt = null;
         todo.IsDeleted = false;
         todo.DeletedAt = null;
+    }
+
+    private static void SortByDate(ObservableCollection<Todo> collection)
+    {
+        ICollectionView view = CollectionViewSource.GetDefaultView(collection);
+        view.SortDescriptions.Add(new SortDescription("CreatedAt", ListSortDirection.Descending));
     }
 }
